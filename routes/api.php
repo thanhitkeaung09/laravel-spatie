@@ -20,22 +20,20 @@ use App\Http\Controllers\TestController;
 Route::post('/login',[UserController::class,'login'])->name("user:post:login");
 Route::post('/register',[UserController::class,'register'])->name("user:post:register");
 
-Route::middleware('auth:sanctum')->group(function(){
-    Route::post('/test',[TestController::class,'testing'])->name("user:test:post")->middleware([
-        'testing'=>"can:edit articles",
-//        'general'=>"can:publish articles"
-    ]);
+Route::middleware('auth:user')->group(function(){
+    Route::post('/test',[TestController::class,'testing'])->name("user:test:post")->middleware('can:edit articles');
 
-    Route::post('/test/general',[TestController::class,'general'])->name("user:test:post")->middleware([
-        'testing'=>"can:publish articles",
-//        'general'=>"can:publish articles"
-    ]);
+//    Route::post('/test/general',[TestController::class,'general'])->name("user:test:post")->middleware([
+//        'testing'=>"can:publish articles",
+////        'general'=>"can:publish articles"
+//    ]);
 
-    Route::apiResource('/api_test',ApiTestController::class)
-        ->except('create','show','update','destroy')
-    ->middleware(['index'=>'can:edit articles',
-                    'store'=>'can:publish articles',
-
-        ]);
+//    Route::apiResource('/api_test',ApiTestController::class)
+////        ->except('create','show','update','destroy')
+//    ->middleware([
+////                    'index'=>'can:edit articles',
+//                    'store'=>'can:publish articles',
+//
+//        ]);
 
 });
