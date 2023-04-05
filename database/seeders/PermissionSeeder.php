@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\PermissionRegistrar;
@@ -20,7 +21,7 @@ class PermissionSeeder extends Seeder
      *
      * @return void
      */
-  
+
         // Reset cached roles and permissions
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
@@ -43,21 +44,24 @@ class PermissionSeeder extends Seeder
         // gets all permissions via Gate::before rule; see AuthServiceProvider
 
         // create demo users
-        $user = \App\Models\User::factory()->create([
+        $user = \App\Models\Admin::factory()->create([
             'name' => 'Example User',
             'email' => 'test@example.com',
+            'password'=>Hash::make('admin1234')
         ]);
         $user->assignRole($role1);
 
-        $user = \App\Models\User::factory()->create([
+        $user = \App\Models\Admin::factory()->create([
             'name' => 'Example Admin User',
             'email' => 'admin@example.com',
+            'password'=>Hash::make('admin1234')
         ]);
         $user->assignRole($role2);
 
-        $user = \App\Models\User::factory()->create([
+        $user = \App\Models\Admin::factory()->create([
             'name' => 'Example Super-Admin User',
             'email' => 'superadmin@example.com',
+            'password'=>Hash::make('admin1234')
         ]);
         $user->assignRole($role3);
     }
